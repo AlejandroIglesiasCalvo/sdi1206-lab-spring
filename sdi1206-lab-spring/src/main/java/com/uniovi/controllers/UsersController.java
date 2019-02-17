@@ -62,24 +62,24 @@ public class UsersController {
 		return "redirect:/user/details/" + id;
 	}
 
-	@RequestMapping(value = "/user/signup", method = RequestMethod.GET)
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup() {
 		return "signup";
 	}
 
-	@RequestMapping(value = "/user/signup", method = RequestMethod.POST)
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@ModelAttribute("user") User user, Model model) {
 		usersService.addUser(user);
 		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 
-	@RequestMapping(value = "/user/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";
 	}
 
-	@RequestMapping(value = { "/user/home" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String dni = auth.getName();
