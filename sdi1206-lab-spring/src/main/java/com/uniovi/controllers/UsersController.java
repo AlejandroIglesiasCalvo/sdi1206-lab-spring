@@ -69,9 +69,11 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup() {
-		return "signup";
+	public String signup(Model model) {
+	model.addAttribute("user", new User());
+	 return "signup";
 	}
+
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result, Model
