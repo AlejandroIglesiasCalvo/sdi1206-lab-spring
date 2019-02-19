@@ -47,10 +47,21 @@
 						<td th:text="${mark.description}">Ejercicio 1</td>
 						<td th:text="${mark.score}">10</td>
 						<td><a th:href="${'/mark/details/' + mark.id}">detalles</a></td>
-						<td><a th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
-						<td><a th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
+						<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+							th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
+						<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+							th:href="${'/mark/delete/' + mark.id}">eliminar</a>
+							<div sec:authorize="hasRole('ROLE_STUDENT')">
+								<div th:if="${mark.resend}">
+									<a th:href="${'/mark/' + mark.id + '/noresend'}">Reenviar</a>
+								</div>
+								<div th:unless="${mark.resend}">
+									<a th:href="${'/mark/' + mark.id + '/resend'}">No reenviar</a>
+								</div>
+							</div></td>
 					</tr>
 				</tbody>
+
 			</table>
 		</div>
 	</div>
