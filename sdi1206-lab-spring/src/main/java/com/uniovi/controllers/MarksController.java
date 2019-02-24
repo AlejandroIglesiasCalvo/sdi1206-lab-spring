@@ -24,13 +24,17 @@ public class MarksController {
 	private UsersService usersService;
 
 	@RequestMapping("/mark/list")
-	public String getList(Model model, Principal principal){
+	public String getList(Model model, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
 		String dni = principal.getName(); // DNI es el name de la autenticación
 		User user = usersService.getUserByDni(dni);
-		model.addAttribute("markList", marksService.getMarksForUser(user) );
+		if (searchText != null && !searchText.isEmpty()) {
+			model.addAttribute("markList", marksService.searchMarksByDescriptionAndNameForUser(searchText, user));
+		} else {
+			model.addAttribute("markList", marksService.getMarksForUser(user));
+		}
 		return "mark/list";
 	}
-
 
 	@RequestMapping(value = "/mark/add", method = RequestMethod.POST)
 	public String setMark(@ModelAttribute Mark mark) {
@@ -74,23 +78,23 @@ public class MarksController {
 	}
 
 	@RequestMapping("/mark/list/update")
-	public String updateList(Model model, Principal principal){
+	public String updateList(Model model, Principal principal) {
 		String dni = principal.getName(); // DNI es el name de la autenticación
 		User user = usersService.getUserByDni(dni);
 		model.addAttribute("markList", marksService.getMarksForUser(user));
 		return "mark/list :: tableMarks";
 	}
 
-	@RequestMapping(value="/mark/{id}/resend", method=RequestMethod.GET)
-	public String setResendTrue(Model model, @PathVariable Long id){
+	@RequestMapping(value = "/mark/{id}/resend", method = RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id) {
 		marksService.setMarkResend(true, id);
 		return "redirect:/mark/list";
 	}
-	@RequestMapping(value="/mark/{id}/noresend", method=RequestMethod.GET)
-	public String setResendFalse(Model model, @PathVariable Long id){
+
+	@RequestMapping(value = "/mark/{id}/noresend", method = RequestMethod.GET)
+	public String setResendFalse(Model model, @PathVariable Long id) {
 		marksService.setMarkResend(false, id);
 		return "redirect:/mark/list";
 	}
-
 
 }
