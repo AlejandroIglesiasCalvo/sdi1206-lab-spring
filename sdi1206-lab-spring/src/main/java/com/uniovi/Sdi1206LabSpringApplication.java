@@ -5,8 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Sdi1206LabSpringApplication {
-//Pedoo
+//Cambio para ver si funciona el git
 	public static void main(String[] args) {
+		//
 		SpringApplication.run(Sdi1206LabSpringApplication.class, args);
 	}
 
